@@ -6,6 +6,8 @@ Demographics
 	Type
 	Name
 	Level
+	Current experience
+	Required experience
 	Occupation
 	Social class
 	Basic combat class

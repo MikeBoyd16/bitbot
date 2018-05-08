@@ -1,0 +1,17 @@
+Name: Expedition RPG
+Description: A dungeon-delving simulator and loot management game
+
+Features:
+    - A system for dynamically generating towns and cities filled with...
+		- Merchants
+		- A library
+		- An expedition hall
+	- Dynamically generated NPCs to populate these towns and cities, providing essential services
+    - Expeditions, where the Player Character travels to ancient ruins and dark dungeons to collect loot
+		- There are different types of expeditions for different regions
+	- Player Characters have...
+		- Combat attributes to fight and survival against enemies encountered
+		- Ability attributes for boosting the chance for success when using skills governed by those abilities
+		- Skills to improve to gain the upper hand in all the PC's endeavors
+		- Currency
+		- An inventory to store and manage loot retrieved from expeditions
