@@ -1,4 +1,0 @@
-Warrior
-Rogue
-Priest
-Mage

@@ -1,1 +1,1 @@
-# generic-strategy-rpg
+# bitbot
