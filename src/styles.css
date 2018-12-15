@@ -3,3 +3,17 @@
  *	Date: 12/12/18
  *	File: styles.css
  */
+
+ .mine {
+     border: 2px solid rgb(0, 0, 0);
+     background-color: rgb(226, 226, 226);
+     font-size: 30px;
+     height: 150px;
+     text-align: center;
+     max-width: 15%;
+     margin: 10px 0px 30px 0px;
+ }
+
+ .placeholder-text {
+    opacity: 0.3;
+ }
