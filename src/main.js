@@ -47,7 +47,7 @@ function reset() {
 /*
  * Adds bits to the current bit amount based on the number of mined bits 
  */
-function mineBits(number) {
+function farmBits(number) {
     bits = bits + number;
     refreshDisplayedData();
 };
@@ -78,5 +78,5 @@ load();
 
 // Bots mine bits every second
 window.setInterval(function() {
-    mineBits(bots);
+    farmBits(bots);
 }, 1000);
