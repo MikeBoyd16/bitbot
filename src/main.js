@@ -65,6 +65,18 @@ function buyBot() {
 };
 
 /*
+ * Fills the farm display with black squares representing bits
+ */
+function populateFarmDisplay(farmID) {
+    var farm = document.getElementById(farmID);
+    farm.textContent = "" +
+        "\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
+        " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
+        " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
+        " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0";
+};
+
+/*
  * Refreshes the displayed game data
  */
 function refreshDisplayedData() {
@@ -79,4 +91,5 @@ load();
 // Bots mine bits every second
 window.setInterval(function() {
     farmBits(bots);
+    populateFarmDisplay("farm1");
 }, 1000);
