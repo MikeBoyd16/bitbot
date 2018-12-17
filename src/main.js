@@ -77,6 +77,14 @@ function populateFarmDisplay(farmID) {
 };
 
 /*
+ * Replaces a full bit character with an empty bit character in a farm display
+ */
+function decrementFarmDisplayBit(farmID) {
+    var farm = document.getElementById(farmID);
+    farm.textContent = farm.textContent.replace("\u{25A0}", "\u{25A1}");
+};
+
+/*
  * Refreshes the displayed game data
  */
 function refreshDisplayedData() {
@@ -88,8 +96,13 @@ function refreshDisplayedData() {
 // Load the save, if it exists
 load();
 
+var pop = 0;
 // Bots mine bits every second
 window.setInterval(function() {
+    if (pop == 0) {
+        populateFarmDisplay("farm1");
+        pop = 1;
+    };
     farmBits(bots);
-    populateFarmDisplay("farm1");
+    decrementFarmDisplayBit("farm1");
 }, 1000);
