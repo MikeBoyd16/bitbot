@@ -6,6 +6,7 @@
 var bits = 0;
 var bots = 0;
 var botCost = 10;
+var farms = { "farm1": true, "farm2": false, "farm3": false, "farm4": false }
 
 /* 
  * Saves the game data 
@@ -68,12 +69,18 @@ function buyBot() {
  * Fills the farm display with black squares representing bits
  */
 function populateFarmDisplay(farmID) {
-    var farm = document.getElementById(farmID);
-    farm.textContent = "" +
-        "\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
-        " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
-        " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
-        " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0";
+    Object.entries(farms).forEach(([farm, unlocked]) => {
+            if (unlocked == true) {
+                var farmElement = document.getElementById(farm);
+                if (!farmElement.textContent.includes("\u25A0")) {
+                    farmElement.textContent = "" +
+                        "\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
+                        " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
+                        " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
+                        " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0";
+                };
+            };
+    });
 };
 
 /*
@@ -96,13 +103,9 @@ function refreshDisplayedData() {
 // Load the save, if it exists
 load();
 
-var pop = 0;
 // Bots mine bits every second
 window.setInterval(function() {
-    if (pop == 0) {
-        populateFarmDisplay("farm1");
-        pop = 1;
-    };
     farmBits(bots);
+    populateFarmDisplay("farm1");
     decrementFarmDisplayBit("farm1");
 }, 1000);
