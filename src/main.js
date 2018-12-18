@@ -66,29 +66,25 @@ function buyBot() {
 };
 
 /*
- * Fills the farm display with black squares representing bits
+ * Replaces a full bit character with an empty bit character. 
+ * When there are only empty bit characters remaining,
+ * the display is reset with full bit characters.
  */
-function populateFarmDisplay(farmID) {
+function manageFarmDisplay() {
     Object.entries(farms).forEach(([farm, unlocked]) => {
-            if (unlocked == true) {
-                var farmElement = document.getElementById(farm);
-                if (!farmElement.textContent.includes("\u25A0")) {
-                    farmElement.textContent = "" +
-                        "\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
-                        " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
-                        " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
-                        " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0";
-                };
+        if (unlocked == true) {
+            var farmElement = document.getElementById(farm);
+            if (!farmElement.textContent.includes("\u25A0")) {
+                farmElement.textContent = "" +
+                    "\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
+                    " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
+                    " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
+                    " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0";
+            } else {
+                farmElement.textContent = farmElement.textContent.replace("\u{25A0}", "\u{25A1}");
             };
+        };
     });
-};
-
-/*
- * Replaces a full bit character with an empty bit character in a farm display
- */
-function decrementFarmDisplayBit(farmID) {
-    var farm = document.getElementById(farmID);
-    farm.textContent = farm.textContent.replace("\u{25A0}", "\u{25A1}");
 };
 
 /*
@@ -106,6 +102,5 @@ load();
 // Bots mine bits every second
 window.setInterval(function() {
     farmBits(bots);
-    populateFarmDisplay("farm1");
-    decrementFarmDisplayBit("farm1");
+    manageFarmDisplay();
 }, 1000);
