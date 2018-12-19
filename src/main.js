@@ -6,6 +6,7 @@
 var bits = 0;
 var bots = 0;
 var botCost = 10;
+var bits_per_second = 0;
 var farms = { "farm1": true, "farm2": false, "farm3": false, "farm4": false }
 
 /* 
@@ -14,7 +15,8 @@ var farms = { "farm1": true, "farm2": false, "farm3": false, "farm4": false }
 function save() {
     var save = {
         bits: bits,
-        bots: bots
+        bots: bots,
+        bits_per_second: bits_per_second
     };
     localStorage.setItem("save", JSON.stringify(save));
 };
@@ -30,6 +32,7 @@ function load() {
         if (typeof savegame.bits !== "undefined") bits = savegame.bits;
         if (typeof savegame.bots !== "undefined") bots = savegame.bots;
         botCost = Math.floor(10 * Math.pow(1.1, bots));
+        bits_per_second = bots;
         refreshDisplayedData();
     };
 };
@@ -41,15 +44,17 @@ function reset() {
     bits = 0;
     bots = 0;
     botCost = 10;
+    bits_per_second = 0;
     localStorage.removeItem("save");
     refreshDisplayedData();
 };
 
 /*
- * Adds bits to the current bit amount based on the number of mined bits 
+ * Adds bits to the current bit amount based on the number of bits 
+ * that can be farmed per second
  */
-function farmBits(number) {
-    bits = bits + number;
+function farmBits() {
+    bits += bits_per_second;
     refreshDisplayedData();
 };
 
@@ -61,14 +66,15 @@ function buyBot() {
         bits = bits - botCost;
         bots++;
         botCost = Math.floor(10 * Math.pow(1.1, bots));
+        bits_per_second += 1;
         refreshDisplayedData();
     };
 };
 
 /*
- * Replaces a full bit character with an empty bit character. 
+ * Replaces a full bit character with an empty bit character 
  * When there are only empty bit characters remaining,
- * the display is reset with full bit characters.
+ * the display is reset with full bit characters
  */
 function manageFarmDisplay() {
     Object.entries(farms).forEach(([farm, unlocked]) => {
@@ -101,6 +107,6 @@ load();
 
 // Bots mine bits every second
 window.setInterval(function() {
-    farmBits(bots);
+    farmBits();
     manageFarmDisplay();
 }, 1000);
