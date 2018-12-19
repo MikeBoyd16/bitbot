@@ -5,9 +5,9 @@
  */
 var bits = 0;
 var bots = 1;
-var botCost = 10;
-var bits_per_second = 0;
-var farms = { "farm1": true, "farm2": false, "farm3": false, "farm4": false }
+var botCost = 11;
+var bits_per_second = 1;
+var farms = { "farm1": true, "farm2": false, "farm3": false, "farm4": false };
 
 /* 
  * Saves the game data 
@@ -32,8 +32,9 @@ function load() {
     if (savegame !== null) {
         if (typeof savegame.bits !== "undefined") bits = savegame.bits;
         if (typeof savegame.bots !== "undefined") bots = savegame.bots;
+        if (typeof savegame.bits_per_second !== "undefined") bits_per_second = savegame.bits_per_second;
+        if (typeof savegame.farms !== "undefined") farms = savegame.farms;
     };
-
     botCost = Math.floor(10 * Math.pow(1.1, bots));
     bits_per_second = bots;
     refreshDisplayedData();
@@ -44,9 +45,9 @@ function load() {
  */
 function reset() {
     bits = 0;
-    bots = 0;
-    botCost = 10;
-    bits_per_second = 0;
+    bots = 1;
+    botCost = 11;
+    bits_per_second = 1;
     localStorage.removeItem("save");
     refreshDisplayedData();
 };
@@ -115,7 +116,16 @@ function refreshDisplayedData() {
 // Load the save, if it exists
 load();
 
-// Bots mine bits every second
+/*
+ * Code to run as soon as the window is loaded
+ */
+window.onload = function start() {
+    manageFarmDisplay();
+};
+
+/*
+ * Code to run every second
+ */
 window.setInterval(function() {
     farmBits();
     manageFarmDisplay();
