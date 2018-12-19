@@ -16,7 +16,8 @@ function save() {
     var save = {
         bits: bits,
         bots: bots,
-        bits_per_second: bits_per_second
+        bits_per_second: bits_per_second,
+        farms: farms
     };
     localStorage.setItem("save", JSON.stringify(save));
 };
@@ -32,7 +33,7 @@ function load() {
         if (typeof savegame.bits !== "undefined") bits = savegame.bits;
         if (typeof savegame.bots !== "undefined") bots = savegame.bots;
     };
-    
+
     botCost = Math.floor(10 * Math.pow(1.1, bots));
     bits_per_second = bots;
     refreshDisplayedData();
