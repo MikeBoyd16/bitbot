@@ -96,6 +96,14 @@ function manageFarmDisplay() {
 };
 
 /*
+ * Unlocks a bit farm, doubling the number of bits aquired each second
+ */
+function unlockFarm(farmID) {
+    farms[farmID] = true;
+    document.getElementById(farmID).style.opacity = "1";
+}
+
+/*
  * Refreshes the displayed game data
  */
 function refreshDisplayedData() {
