@@ -4,7 +4,7 @@
  *	File: main.js
  */
 var bits = 0;
-var bots = 0;
+var bots = 1;
 var botCost = 10;
 var bits_per_second = 0;
 var farms = { "farm1": true, "farm2": false, "farm3": false, "farm4": false }
@@ -31,10 +31,11 @@ function load() {
     if (savegame !== null) {
         if (typeof savegame.bits !== "undefined") bits = savegame.bits;
         if (typeof savegame.bots !== "undefined") bots = savegame.bots;
-        botCost = Math.floor(10 * Math.pow(1.1, bots));
-        bits_per_second = bots;
-        refreshDisplayedData();
     };
+    
+    botCost = Math.floor(10 * Math.pow(1.1, bots));
+    bits_per_second = bots;
+    refreshDisplayedData();
 };
 
 /* 
