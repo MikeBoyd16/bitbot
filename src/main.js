@@ -120,6 +120,13 @@ load();
  * Code to run as soon as the window is loaded
  */
 window.onload = function start() {
+    // Reset the opacity for all unlocked farms
+    Object.entries(farms).forEach(([farm, unlocked]) => {
+        if (unlocked == true) {
+            document.getElementById(farm).style.opacity = "1";
+        };
+    });
+
     manageFarmDisplay();
 };
 
