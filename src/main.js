@@ -75,6 +75,23 @@ function buyBot() {
 };
 
 /*
+ * Loads content for farms based on whether they are unlocked or not
+ */
+function loadFarms() {
+    Object.entries(farms).forEach(([farm, unlocked]) => {
+        var farmElement = document.getElementById(farm);
+        farmElement.textContent = "" +
+            "\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
+            " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
+            " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
+            " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0";
+        if (unlocked == false) {
+            farmElement.style.opacity = "0.3";
+        };
+    });
+};
+
+/*
  * Replaces a full bit character with an empty bit character 
  * When there are only empty bit characters remaining,
  * the display is reset with full bit characters
@@ -113,21 +130,15 @@ function refreshDisplayedData() {
     document.getElementById('botCost').innerHTML = botCost;
 };
 
-// Load the save, if it exists
-load();
-
 /*
  * Code to run as soon as the window is loaded
  */
 window.onload = function start() {
-    // Reset the opacity for all unlocked farms
-    Object.entries(farms).forEach(([farm, unlocked]) => {
-        if (unlocked == true) {
-            document.getElementById(farm).style.opacity = "1";
-        };
-    });
+    // Load the save, if it exists
+    load();
 
-    manageFarmDisplay();
+    // Set the placeholder content for locked farms
+    loadFarms();
 };
 
 /*
