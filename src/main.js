@@ -25,15 +25,15 @@ function save() {
 /* 
  * Loads an existing save into the current game 
  */
-function load() {
-    var savegame = JSON.parse(localStorage.getItem("save"));
+function loadSave() {
+    var save = JSON.parse(localStorage.getItem("save"));
 
     // Local storage returns null if the item doesn't exist
-    if (savegame !== null) {
-        if (typeof savegame.bits !== "undefined") bits = savegame.bits;
-        if (typeof savegame.bots !== "undefined") bots = savegame.bots;
-        if (typeof savegame.bits_per_second !== "undefined") bits_per_second = savegame.bits_per_second;
-        if (typeof savegame.farms !== "undefined") farms = savegame.farms;
+    if (save !== null) {
+        if (typeof save.bits !== "undefined") bits = save.bits;
+        if (typeof save.bots !== "undefined") bots = save.bots;
+        if (typeof save.bits_per_second !== "undefined") bits_per_second = save.bits_per_second;
+        if (typeof save.farms !== "undefined") farms = save.farms;
     };
     botCost = Math.floor(10 * Math.pow(1.1, bots));
     bits_per_second = bots;
@@ -135,7 +135,7 @@ function refreshDisplayedData() {
  */
 window.onload = function start() {
     // Load the save, if it exists
-    load();
+    loadSave();
 
     // Set the placeholder content for locked farms
     loadFarms();
