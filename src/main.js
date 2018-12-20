@@ -5,9 +5,12 @@
  */
 var bits = 0;
 var bots = 1;
+var botOutput = 1;
+var botOutputModifier = 1;
 var botCost = 11;
 var bits_per_second = 1;
 var farms = { "farm1": true, "farm2": false, "farm3": false, "farm4": false };
+var farmOutputModifier = 1;
 
 /* 
  * Saves the game data 
@@ -16,8 +19,10 @@ function save() {
     var save = {
         bits: bits,
         bots: bots,
+        botOutputModifier: botOutputModifier,
         bits_per_second: bits_per_second,
-        farms: farms
+        farms: farms,
+        farmOutputModifier: farmOutputModifier
     };
     localStorage.setItem("save", JSON.stringify(save));
 };
@@ -32,11 +37,12 @@ function loadSave() {
     if (save !== null) {
         if (typeof save.bits !== "undefined") bits = save.bits;
         if (typeof save.bots !== "undefined") bots = save.bots;
+        if (typeof save.botOutputModifier !== "undefined") botOutputModifier = save.botOutputModifier;
         if (typeof save.bits_per_second !== "undefined") bits_per_second = save.bits_per_second;
         if (typeof save.farms !== "undefined") farms = save.farms;
+        if (typeof save.farmOutputModifier !== "undefined") farmOutputModifier = save.farmOutputModifier;
     };
-    botCost = Math.floor(10 * Math.pow(1.1, bots));
-    bits_per_second = bots;
+
     refreshDisplayedData();
 };
 
@@ -47,7 +53,9 @@ function reset() {
     bits = 0;
     bots = 1;
     botCost = 11;
+    botOutputModifier = 1;
     bits_per_second = 1;
+    farmOutputModifier = 1;
     localStorage.removeItem("save");
     refreshDisplayedData();
 };
@@ -69,10 +77,17 @@ function buyBot() {
         bits = bits - botCost;
         bots++;
         botCost = Math.floor(10 * Math.pow(1.1, bots));
-        bits_per_second += 1;
+        calculateBitsPerSecond();
         refreshDisplayedData();
     };
 };
+
+/*
+ * Calculates bits per second
+ */
+function calculateBitsPerSecond() {
+    bits_per_second = (bots * botOutputModifier) * farmOutputModifier;
+}
 
 /*
  * Loads content for farms based on whether they are unlocked or not
@@ -114,11 +129,18 @@ function manageFarmDisplay() {
 };
 
 /*
- * Unlocks a bit farm, doubling the number of bits aquired each second
+ * Unlocks a bit farm, increasing bit output by 100%
  */
 function unlockFarm(farmID) {
+    // Set the farm to 'unlocked'
     farms[farmID] = true;
+
+    // Reset the opacity
     document.getElementById(farmID).style.opacity = "1";
+
+    // Increase bit output by 100%
+    farmOutputModifier += 1;
+    calculateBitsPerSecond();
 }
 
 /*
