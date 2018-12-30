@@ -9,7 +9,10 @@ var botOutput = 1;
 var botOutputModifier = 1;
 var botCost = 11;
 var bits_per_second = 1;
-var farms = { "farm1": true, "farm2": false, "farm3": false, "farm4": false };
+var farms = {   "farm1": { "unlocked": true, "cost": 0 }, 
+                "farm2": { "unlocked": false, "cost": 100000 }, 
+                "farm3": { "unlocked": false, "cost": 10000000 }, 
+                "farm4": { "unlocked": false, "cost": 999999999 }};
 var farmOutputModifier = 1;
 
 /* 
@@ -93,17 +96,17 @@ function calculateBitsPerSecond() {
  * Loads content for farms based on whether they are unlocked or not
  */
 function loadFarms() {
-    Object.entries(farms).forEach(([farm, unlocked]) => {
+    for (const farm of Object.keys(farms)) {
         var farmElement = document.getElementById(farm);
         farmElement.textContent = "" +
             "\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
             " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
             " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
             " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0";
-        if (unlocked == false) {
+        if (farms[farm]["unlocked"] === false) {
             farmElement.style.opacity = "0.3";
         };
-    });
+    };
 };
 
 /*
@@ -112,8 +115,8 @@ function loadFarms() {
  * the display is reset with full bit characters
  */
 function manageFarmDisplay() {
-    Object.entries(farms).forEach(([farm, unlocked]) => {
-        if (unlocked == true) {
+    for (const farm of Object.keys(farms)) {
+        if (farms[farm]["unlocked"] === true) {
             var farmElement = document.getElementById(farm);
             if (!farmElement.textContent.includes("\u25A0")) {
                 farmElement.textContent = "" +
@@ -125,23 +128,28 @@ function manageFarmDisplay() {
                 farmElement.textContent = farmElement.textContent.replace("\u{25A0}", "\u{25A1}");
             };
         };
-    });
+    };
 };
 
 /*
  * Unlocks a bit farm, increasing bit output by 100%
  */
 function unlockFarm(farmID) {
-    // Set the farm to 'unlocked'
-    farms[farmID] = true;
+    if (bits >= farms[farmID]["cost"]) {
+        // Remove the bit cost from the bit total
+        bits -= farms[farmID]["cost"];
 
-    // Reset the opacity
-    document.getElementById(farmID).style.opacity = "1";
+        // Set the farm to 'unlocked'
+        farms[farmID]["unlocked"] = true;
 
-    // Increase bit output by 100%
-    farmOutputModifier += 1;
-    calculateBitsPerSecond();
-}
+        // Reset the opacity
+        document.getElementById(farmID).style.opacity = "1";
+
+        // Increase bit output by 100%
+        farmOutputModifier += 1;
+        calculateBitsPerSecond();
+    };
+};
 
 /*
  * Refreshes the displayed game data
