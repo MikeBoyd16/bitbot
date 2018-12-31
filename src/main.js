@@ -125,7 +125,7 @@ function manageNodeDisplay() {
                     " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
                     " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0";
             } else {
-                nodeElement.textContent = nodeElement.textContent.replace("\u{25A0}", "\u{25A1}");
+                nodeElement.textContent = nodeElement.textContent.replace("\u{25A0}", "\u{25FB}");
             };
         };
     };
