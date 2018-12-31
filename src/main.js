@@ -9,11 +9,11 @@ var botOutput = 1;
 var botOutputModifier = 1;
 var botCost = 11;
 var bits_per_second = 1;
-var farms = {   "farm1": { "unlocked": true, "cost": 0 }, 
-                "farm2": { "unlocked": false, "cost": 100000 }, 
-                "farm3": { "unlocked": false, "cost": 10000000 }, 
-                "farm4": { "unlocked": false, "cost": 999999999 }};
-var farmOutputModifier = 1;
+var nodes = {   "node1": { "unlocked": true, "cost": 0 }, 
+                "node2": { "unlocked": false, "cost": 100000 }, 
+                "node3": { "unlocked": false, "cost": 10000000 }, 
+                "node4": { "unlocked": false, "cost": 999999999 }};
+var nodeOutputModifier = 1;
 
 /* 
  * Saves the game data 
@@ -24,8 +24,8 @@ function save() {
         bots: bots,
         botOutputModifier: botOutputModifier,
         bits_per_second: bits_per_second,
-        farms: farms,
-        farmOutputModifier: farmOutputModifier
+        nodes: nodes,
+        nodeOutputModifier: nodeOutputModifier
     };
     localStorage.setItem("save", JSON.stringify(save));
 };
@@ -42,8 +42,8 @@ function loadSave() {
         if (typeof save.bots !== "undefined") bots = save.bots;
         if (typeof save.botOutputModifier !== "undefined") botOutputModifier = save.botOutputModifier;
         if (typeof save.bits_per_second !== "undefined") bits_per_second = save.bits_per_second;
-        if (typeof save.farms !== "undefined") farms = save.farms;
-        if (typeof save.farmOutputModifier !== "undefined") farmOutputModifier = save.farmOutputModifier;
+        if (typeof save.nodes !== "undefined") nodes = save.nodes;
+        if (typeof save.nodeOutputModifier !== "undefined") nodeOutputModifier = save.nodeOutputModifier;
     };
 
     refreshDisplayedData();
@@ -58,16 +58,16 @@ function reset() {
     botCost = 11;
     botOutputModifier = 1;
     bits_per_second = 1;
-    farmOutputModifier = 1;
+    nodeOutputModifier = 1;
     localStorage.removeItem("save");
     refreshDisplayedData();
 };
 
 /*
  * Adds bits to the current bit amount based on the number of bits 
- * that can be farmed per second
+ * that can be mined per second
  */
-function farmBits() {
+function mineBits() {
     bits += bits_per_second;
     refreshDisplayedData();
 };
@@ -89,22 +89,22 @@ function buyBot() {
  * Calculates bits per second
  */
 function calculateBitsPerSecond() {
-    bits_per_second = (bots * botOutputModifier) * farmOutputModifier;
+    bits_per_second = (bots * botOutputModifier) * nodeOutputModifier;
 }
 
 /*
- * Loads content for farms based on whether they are unlocked or not
+ * Loads content for nodes based on whether they are unlocked or not
  */
-function loadFarms() {
-    for (const farm of Object.keys(farms)) {
-        var farmElement = document.getElementById(farm);
-        farmElement.textContent = "" +
+function loadNodes() {
+    for (const node of Object.keys(nodes)) {
+        var nodeElement = document.getElementById(node);
+        nodeElement.textContent = "" +
             "\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
             " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
             " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
             " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0";
-        if (farms[farm]["unlocked"] === false) {
-            farmElement.style.opacity = "0.3";
+        if (nodes[node]["unlocked"] === false) {
+            nodeElement.style.opacity = "0.3";
         };
     };
 };
@@ -114,39 +114,39 @@ function loadFarms() {
  * When there are only empty bit characters remaining,
  * the display is reset with full bit characters
  */
-function manageFarmDisplay() {
-    for (const farm of Object.keys(farms)) {
-        if (farms[farm]["unlocked"] === true) {
-            var farmElement = document.getElementById(farm);
-            if (!farmElement.textContent.includes("\u25A0")) {
-                farmElement.textContent = "" +
+function manageNodeDisplay() {
+    for (const node of Object.keys(nodes)) {
+        if (nodes[node]["unlocked"] === true) {
+            var nodeElement = document.getElementById(node);
+            if (!nodeElement.textContent.includes("\u25A0")) {
+                nodeElement.textContent = "" +
                     "\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
                     " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
                     " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0" +
                     " \u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u0020\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0\u25A0";
             } else {
-                farmElement.textContent = farmElement.textContent.replace("\u{25A0}", "\u{25A1}");
+                nodeElement.textContent = nodeElement.textContent.replace("\u{25A0}", "\u{25A1}");
             };
         };
     };
 };
 
 /*
- * Unlocks a bit farm, increasing bit output by 100%
+ * Unlocks a bit node, increasing bit output by 100%
  */
-function unlockFarm(farmID) {
-    if (bits >= farms[farmID]["cost"]) {
+function unlockNode(nodeID) {
+    if (bits >= nodes[nodeID]["cost"]) {
         // Remove the bit cost from the bit total
-        bits -= farms[farmID]["cost"];
+        bits -= nodes[nodeID]["cost"];
 
-        // Set the farm to 'unlocked'
-        farms[farmID]["unlocked"] = true;
+        // Set the node to 'unlocked'
+        nodes[nodeID]["unlocked"] = true;
 
         // Reset the opacity
-        document.getElementById(farmID).style.opacity = "1";
+        document.getElementById(nodeID).style.opacity = "1";
 
         // Increase bit output by 100%
-        farmOutputModifier += 1;
+        nodeOutputModifier += 1;
         calculateBitsPerSecond();
     };
 };
@@ -167,14 +167,14 @@ window.onload = function start() {
     // Load the save, if it exists
     loadSave();
 
-    // Set the placeholder content for locked farms
-    loadFarms();
+    // Set the placeholder content for locked nodes
+    loadNodes();
 };
 
 /*
  * Code to run every second
  */
 window.setInterval(function() {
-    farmBits();
-    manageFarmDisplay();
+    mineBits();
+    manageNodeDisplay();
 }, 1000);
