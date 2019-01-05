@@ -4,15 +4,43 @@
  *	File: styles.css
  */
 
- #node {
-     border: 2px solid rgb(0, 0, 0);
-     background-color: rgb(226, 226, 226);
-     font-size: 16px;
-     height: 110px;
-     text-align: center;
-     max-width: 75%;
-     margin: 10px 0px 30px 0px;
- }
+body {
+    background-color: #f5f5f5;
+}
+
+.row {
+    display: block;
+}
+
+.row-centered {
+    text-align: center;
+}
+
+.col-xs-3 {
+    background-color: #ffffff;
+    padding: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 20px;
+    width: 23%;
+    height: 100%;
+}
+
+.col-centered {
+    display: inline-block;
+    float: none;
+    text-align: center;
+    vertical-align: top;
+}
+
+.node {
+    border: 2px solid rgb(0, 0, 0);
+    background-color: rgb(226, 226, 226);
+    font-size: 20px;
+    height: 110px;
+    text-align: center;
+    width: 60%;
+    margin: 10px -450px 30px 65px;
+}
 
 #node1, #node2, #node3, #node4 {
     margin-top: 3px;
