@@ -3,7 +3,8 @@
  *	Date: 12/12/18
  *	File: main.js
  */
-var bits = 0;
+var current_bits = 0;
+var bits_collected = 0;
 var bots = 1;
 var botOutput = 1;
 var botOutputModifier = 1;
@@ -20,7 +21,8 @@ var nodeOutputModifier = 1;
  */
 function save() {
     var save = {
-        bits: bits,
+        current_bits: current_bits,
+        bits_collected: bits_collected,
         bots: bots,
         botOutputModifier: botOutputModifier,
         bits_per_second: bits_per_second,
@@ -38,7 +40,8 @@ function loadSave() {
 
     // Local storage returns null if the item doesn't exist
     if (save !== null) {
-        if (typeof save.bits !== "undefined") bits = save.bits;
+        if (typeof save.current_bits !== "undefined") current_bits = save.current_bits;
+        if (typeof save.bits_collected !== "undefined") bits_collected = save.bits_collected;
         if (typeof save.bots !== "undefined") bots = save.bots;
         if (typeof save.botOutputModifier !== "undefined") botOutputModifier = save.botOutputModifier;
         if (typeof save.bits_per_second !== "undefined") bits_per_second = save.bits_per_second;
@@ -53,7 +56,8 @@ function loadSave() {
  * Resets all game data and removes the save, if it exists 
  */
 function reset() {
-    bits = 0;
+    current_bits = 0;
+    bits_collected = 0;
     bots = 1;
     botCost = 11;
     botOutputModifier = 1;
@@ -68,7 +72,8 @@ function reset() {
  * that can be mined per second
  */
 function mineBits() {
-    bits += bits_per_second;
+    current_bits += bits_per_second;
+    bits_collected += bits_per_second;
     refreshDisplayedData();
 };
 
@@ -76,8 +81,8 @@ function mineBits() {
  * Adds a bot to the current bot amount and subtracts its cost from the current bit amount 
  */
 function buyBot() {
-    if (bits >= botCost) {
-        bits = bits - botCost;
+    if (current_bits >= botCost) {
+        current_bits = current_bits - botCost;
         bots++;
         botCost = Math.floor(10 * Math.pow(1.1, bots));
         calculateBitsPerSecond();
@@ -135,9 +140,9 @@ function manageNodeDisplay() {
  * Unlocks a bit node, increasing bit output by 100%
  */
 function unlockNode(nodeID) {
-    if (bits >= nodes[nodeID]["cost"]) {
+    if (current_bits >= nodes[nodeID]["cost"]) {
         // Remove the bit cost from the bit total
-        bits -= nodes[nodeID]["cost"];
+        current_bits -= nodes[nodeID]["cost"];
 
         // Set the node to 'unlocked'
         nodes[nodeID]["unlocked"] = true;
@@ -155,7 +160,7 @@ function unlockNode(nodeID) {
  * Refreshes the displayed game data
  */
 function refreshDisplayedData() {
-    document.getElementById('bits').innerHTML = bits;
+    document.getElementById('bits').innerHTML = current_bits;
     document.getElementById('bots').innerHTML = bots;
     document.getElementById('botCost').innerHTML = botCost;
 };
