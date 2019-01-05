@@ -160,6 +160,13 @@ function unlockNode(nodeID) {
  * Refreshes the displayed game data
  */
 function refreshDisplayedData() {
+    // Statistics column
+    document.getElementById('bits_per_second').innerHTML = bits_per_second;
+    document.getElementById('bot_efficiency').innerHTML = botOutputModifier;
+    document.getElementById('node_efficiency').innerHTML = nodeOutputModifier;
+    document.getElementById('bits_collected').innerHTML = bits_collected;
+
+    // BitBot column
     document.getElementById('bits').innerHTML = current_bits;
     document.getElementById('bots').innerHTML = bots;
     document.getElementById('botCost').innerHTML = botCost;
