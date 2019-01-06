@@ -45,3 +45,7 @@ body {
 #node1, #node2, #node3, #node4 {
     margin-top: 3px;
 }
+
+table {
+    margin: 0 auto;
+}
