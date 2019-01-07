@@ -22,7 +22,7 @@ body {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     margin: 20px;
     width: 25%;
-    height: 100%;
+    height: 110%;
 }
 
 .col-centered {
@@ -60,4 +60,9 @@ table, td {
 
 td {
     padding: 5px;
+}
+
+.upgradeButton {
+    width: 100%;
+    height: 25px;
 }
